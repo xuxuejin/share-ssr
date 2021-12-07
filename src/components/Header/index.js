@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./index.less";
+import WithStyle from "../WithStyle";
+import styles from "./index.less";
 
 const Header = () => {
   return (
@@ -13,4 +14,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default WithStyle(Header, styles);

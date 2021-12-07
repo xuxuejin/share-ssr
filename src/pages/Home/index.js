@@ -10,7 +10,7 @@ const Home = () => {
   }, []);
 
   const getList = () => {
-    fetch("https://api.apiopen.top/getJoke?page=1&count=10&type=video").then(
+    fetch("https://api.apiopen.top/getJoke?page=1&count=5&type=video").then(
       async (response) => {
         const { code, result } = await response.clone().json();
         if (code === 200) {
@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <main>
+    <main className="home-wrap">
       <ul className="list-wrap">
         {data.map((item) => (
           <li key={item.sid}>

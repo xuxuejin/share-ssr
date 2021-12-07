@@ -1,23 +1,25 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useRoutes } from "react-router-dom";
+import routes from './routes.js'
 import Header from "./components/Header";
-import Home from "./pages/Home";
-import Detail from "./pages/Detail";
-import News from "./pages/News";
-import NotFound from "./pages/NotFound";
+// import Home from "./pages/Home";
+// import Detail from "./pages/Detail";
+// import News from "./pages/News";
+// import NotFound from "./pages/NotFound";
 
-function App() {
+const App = () => {
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
         <Header />
-        <Routes>
+        {/* <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/news" element={<News />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+        </Routes>  */}
+      {useRoutes(routes)}
+      {/* </BrowserRouter> */}
     </>
   );
 }

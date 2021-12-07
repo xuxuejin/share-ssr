@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.less";
 
 const Detail = () => {
-  const [data, setData] = useState([]);
-  console.log(location);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     getList();
@@ -20,7 +19,7 @@ const Detail = () => {
     );
   };
 
-  return <main className="detail-wrap">Detailsdfds</main>;
+  return <main className="detail-wrap">{data.text}</main>;
 };
 
 export default Detail;

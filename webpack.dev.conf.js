@@ -8,7 +8,6 @@ module.exports = merge(baseConf, {
   mode: "development",
   entry: {
     app: ["./src/index.js"],
-    // vendors: ['react', 'react-dom', 'react-router-dom'],
   },
   module: {
     rules: [

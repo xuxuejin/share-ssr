@@ -2,17 +2,29 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const baseConf = require("./webpack.base.conf");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = merge(baseConf, {
   entry: {
-    app: ["./src/index.js"],
+    app: ["./src/client/index.js"],
   },
   module: {
     rules: [
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]-[local]-[hash:base64:5]",
+              },
+              esModule: true,
+            },
+          },
+          "less-loader",
+        ],
       },
     ],
   },
@@ -23,12 +35,12 @@ module.exports = merge(baseConf, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./document.ejs",
+      template: path.join(__dirname, "document.ejs"),
       inject: "body",
     }),
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), "dist/")],
-    }),
+    // new CleanWebpackPlugin({
+    //   cleanOnceBeforeBuildPatterns: [path.resolve(process.cwd(), "dist/")],
+    // }),
   ],
   devServer: {
     historyApiFallback: true,

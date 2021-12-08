@@ -1,60 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WithStyle from "@/components/WithStyle";
+import { connect } from "react-redux";
+import { getHomeData } from "@/store/home/createActions";
 import styles from "./index.less";
-
-// console.log('stylesstyles', styles._getContent())
+import banner from "@/assets/bg.png";
 
 const Home = (props) => {
-  const [data, setData] = useState([]);
-  let [times, setTimes] = useState(0);
-
-  // console.log(props.staticContext)
-
-  if(props.staticContext) {
-    props.staticContext.csses.push(styles._getCss())
-  }
+  let [page, setPage] = useState(1);
+  const [count] = useState(5);
+  const {
+    propGetHomeData,
+    home: { homeData },
+  } = props;
 
   useEffect(() => {
-    getList();
-  }, [props]);
+    propGetHomeData({
+      page,
+      count,
+    });
+  }, [page]);
 
-  const getList = () => {
-    fetch("https://api.apiopen.top/getJoke?page=1&count=5&type=video").then(
-      async (response) => {
-        const { code, result } = await response.clone().json();
-        if (code === 200) {
-          setData(result);
-        }
-      }
-    );
+  const prev = () => {
+    if (page === 1) {
+      return;
+    }
+    setPage(Number(page) - 1);
   };
 
-  const btnClick = () => {
-    setTimes(times+1)
-  }
+  const next = () => {
+    setPage(Number(page) + 1);
+  };
 
   return (
     <main>
-      <button className={styles.btn} onClick={btnClick}>测试按钮，点击了{times}次</button>
+      <div className={styles.banner}>
+        <img src={banner} />
+      </div>
+      <div className={styles.btnWrap}>
+        <button onClick={prev}>上一页</button>
+        <button onClick={next}>下一页</button>
+      </div>
       <ul className={styles.listWrap}>
-        {data.map((item) => (
-          <li key={item.sid}>
-            <div className="avatar">
-              <span>
-                <img src={item.header} />
-              </span>
-              <strong>{item.name}</strong>
-            </div>
-            <p>
-              <Link to={`/detail/${item.sid}`}>{item.text}</Link>
-            </p>
-            <span>{item.passtime}</span>
-          </li>
-        ))}
+        {homeData.length &&
+          homeData.map((item) => (
+            <li key={item.sid}>
+              <div className={styles.avatar}>
+                <span>
+                  <img src={item.header} />
+                </span>
+                <strong>{item.name}</strong>
+              </div>
+              <div className={styles.info}>
+                <p>
+                  <Link to={`/detail/${item.sid}`}>{item.text}</Link>
+                </p>
+                <span>{item.passtime}</span>
+              </div>
+            </li>
+          ))}
       </ul>
     </main>
   );
 };
 
-export default WithStyle(Home, styles);
+const mapStateToProps = ({ home }) => ({ home });
+
+const mapDispatchToProps = (dispatch) => ({
+  propGetHomeData({ page, count }) {
+    dispatch(getHomeData({ page, count }));
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WithStyle(Home, styles));

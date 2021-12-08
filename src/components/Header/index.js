@@ -5,12 +5,13 @@ import styles from "./index.less";
 
 const Header = () => {
   return (
-    <header>
-      <nav>
+    <div className={styles.header}>
+      <h1 />
+      <div>
         <Link to="/">home</Link>
         <Link to="/news">news</Link>
-      </nav>
-    </header>
+      </div>
+    </div>
   );
 };
 

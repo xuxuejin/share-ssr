@@ -2,7 +2,7 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const baseConfig = require("./webpack.base.conf");
 module.exports = merge(baseConfig, {
-  entry: "./src/index.js",
+  entry: "./src/client/index.js",
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "client.js",
@@ -11,15 +11,19 @@ module.exports = merge(baseConfig, {
     rules: [
       {
         test: /\.less$/i,
-        use: [{
-          loader: "css-loader",
-          options: {
-            importLoaders: 1,
-            modules: {
-              localIdentName: "[path][name]__[local]--[hash:base64:5]",
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]-[local]-[hash:base64:5]",
+              },
+              esModule: true,
             },
           },
-        }, "less-loader"],
+          "less-loader",
+        ],
       },
     ],
   },

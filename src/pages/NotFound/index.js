@@ -1,10 +1,8 @@
-import React from 'react'
+import React from "react";
+import WithStyle from "@/components/WithStyle";
+import styles from "./index.less";
 const NotFound = () => {
-    return (
-        <main>
-            NotFound
-        </main>
-    )
-}
+  return <strong className={styles.txt}>404</strong>;
+};
 
-export default NotFound;
+export default WithStyle(NotFound, styles);

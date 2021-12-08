@@ -11,7 +11,7 @@ export default [
     routes: [
       {
         exact: true,
-        path: "/home",
+        path: "/",
         component: Home,
       },
       {

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   mode: "development",
   module: {
@@ -11,4 +13,10 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    // 设置别名
+    alias: {
+        '@': path.resolve(__dirname, 'src')
+    }
+  }   
 };

@@ -13,7 +13,6 @@ export default (req, res) => {
   const context = {
     csses: [],
   };
-  const css = new Set();
   // 服务端需要处理的请求
   //   const promises = [];
 
@@ -21,20 +20,22 @@ export default (req, res) => {
   //   const matchedRoutes = matchRoutes(routes, req.path);
 
   const insertCss = (...styles) => {
-    console.log(styles);
+      console.log('styles+++++', styles)
     return styles.forEach((style) => {
-      console.log("-------", style._getCss());
-      css.add(style._getCss());
+        console.table(style)
+    //   css.add(style._getCss());
     });
   };
 
-  let domContent = renderToString(
-    <StaticRouter location={req.path}>
+  const domContent = renderToString(
+    <StaticRouter location={req.path} context={context}>
       <StyleContext.Provider value={{ insertCss }}>
         {renderRoutes(routes)}
       </StyleContext.Provider>
     </StaticRouter>
   );
+
+  let cssStr = context.csses.length ? context.csses.join('\n') : '';
 
   let html = `
   <!DOCTYPE html>
@@ -42,12 +43,14 @@ export default (req, res) => {
   <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <style>${[...css].join("")}</style>
+  <style>${cssStr}</style>
   <title>react-ssr</title>
   </head>
   <body>
   <div id="app">${domContent}</div>
   <script>
+  </script>
+  <script src="/client.js">
   </script>
   </body>
   </html>

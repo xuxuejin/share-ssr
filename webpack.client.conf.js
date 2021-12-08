@@ -11,7 +11,15 @@ module.exports = merge(baseConfig, {
     rules: [
       {
         test: /\.less$/i,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: [{
+          loader: "css-loader",
+          options: {
+            importLoaders: 1,
+            modules: {
+              localIdentName: "[path][name]__[local]--[hash:base64:5]",
+            },
+          },
+        }, "less-loader"],
       },
     ],
   },

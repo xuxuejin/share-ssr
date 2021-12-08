@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./index.less";
+import WithStyle from "@/components/WithStyle";
+import styles from "./index.less";
 
-const Home = () => {
+// console.log('stylesstyles', styles._getContent())
+
+const Home = (props) => {
   const [data, setData] = useState([]);
+  let [times, setTimes] = useState(0);
+
+  // console.log(props.staticContext)
+
+  if(props.staticContext) {
+    props.staticContext.csses.push(styles._getCss())
+  }
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [props]);
 
   const getList = () => {
     fetch("https://api.apiopen.top/getJoke?page=1&count=5&type=video").then(
@@ -20,9 +30,14 @@ const Home = () => {
     );
   };
 
+  const btnClick = () => {
+    setTimes(times+1)
+  }
+
   return (
-    <main className="home-wrap">
-      <ul className="list-wrap">
+    <main>
+      <button className={styles.btn} onClick={btnClick}>测试按钮，点击了{times}次</button>
+      <ul className={styles.listWrap}>
         {data.map((item) => (
           <li key={item.sid}>
             <div className="avatar">
@@ -42,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default WithStyle(Home, styles);

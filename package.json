@@ -8,7 +8,7 @@
     "dev:build:server": "webpack --config webpack.server.conf.js --watch",
     "dev:start": "nodemon build/server.js",
     "start": "npm-run-all --parallel dev:**",
-    "dev:local": "webpack server --config webpack.dev.conf.js",
+    "local": "webpack server --config webpack.dev.conf.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

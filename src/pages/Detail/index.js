@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./index.less";
+import WithStyle from "@/components/WithStyle";
+import styles from "./index.less";
 
 const Detail = () => {
   const [data, setData] = useState({});
@@ -19,7 +20,7 @@ const Detail = () => {
     );
   };
 
-  return <main className="detail-wrap">{data.text}</main>;
+  return <main className={styles.detail}>{data.text}</main>;
 };
 
-export default Detail;
+export default WithStyle(Detail, styles);

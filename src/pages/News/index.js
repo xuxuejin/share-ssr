@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./index.less";
+import WithStyle from "@/components/WithStyle";
+import styles from "./index.less";
 
-const News = () => {
+const News = (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const News = () => {
     });
   };
   return (
-    <ul className="news-wrap">
+    <ul className={styles.news}>
       {data.map((item, index) => (
         <li key={index.toString()}>
           <img src={item.image} />
@@ -31,4 +32,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default WithStyle(News, styles);

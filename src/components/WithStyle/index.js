@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
-// import withStyles from "isomorphic-style-loader/withStyles";
+import React from "react";
 
 const WithStyle = (OldComponent, styles) => {
-  console.log(this.props);
-  console.log(styles._getCss());
-  //   useEffect(() => {
-  //     if (this.props.staticContext) {
-  //       this.props.staticContext.css.push(styles._getCss());
-  //     }
-  //   }, [styles]);
-
-  return <OldComponent />;
+  // 处理样式
+  return (props) => {
+    if(props.staticContext) {
+      props.staticContext.csses.push(styles._getCss())
+    }
+   return <OldComponent {...props} />;
+  }
 };
 
 export default WithStyle;

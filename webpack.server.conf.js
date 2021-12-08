@@ -15,15 +15,18 @@ module.exports = merge(baseConfig, {
     rules: [
       {
         test: /\.less$/i,
-        // 服务端缺少 dom 相关 api, style-loader 无效
+        // 服务端缺少 dom, style-loader 无效
         use: [
           "isomorphic-style-loader",
           {
             loader: "css-loader",
             options: {
-              modules: true,
+              importLoaders: 1,
               // 坑
               esModule: false,
+              modules: {
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+              },
             },
           },
           "less-loader",

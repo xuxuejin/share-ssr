@@ -14,17 +14,17 @@ export default [
         path: "/",
         component: Home,
         // 路由挂载的方法获取不到
-        loadData: Home.getInitialState,
+        loadData: Home.getInitState,
       },
       {
         path: "/detail/:id",
         component: Detail,
-        loadData: Detail.getInitialState,
+        loadData: Detail.getInitState,
       },
       {
         path: "/news",
         component: News,
-        loadData: News.getInitialState,
+        loadData: News.getInitState,
       },
       {
         path: "*",

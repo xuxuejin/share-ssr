@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WithStyle from "@/components/WithStyle";
 import { connect } from "react-redux";
-import {Helmet} from 'react-helmet';
+import { Helmet } from "react-helmet";
 import { getHomeData } from "@/store/home/createActions";
 import styles from "./index.less";
 import banner from "@/assets/bg.png";
@@ -83,8 +83,7 @@ const Home = connect(
 )(WithStyle(HomeRaw, styles));
 
 // 解决获取不到路由挂载方法
-Home.getInitialState = (store) => {
-  return store.dispatch(getHomeData({page:1, count: 5}));
-};
+Home.getInitState = ({ store }) =>
+  store.dispatch(getHomeData({ page: 1, count: 5 }));
 
-export default Home
+export default Home;

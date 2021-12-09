@@ -1,68 +1,83 @@
-react 三件套：
+# React-SSR 从 0 到 1
 
-react react-dom react-router-dom
+> Created By 许学进， based on react, redux, axios and less
 
-redux 三件套：
+## SSR 解决的问题
 
-redux react-redux redux-thunk （redux-logger）react-hot-loader
+1. 首屏渲染
 
-服务器三件套：
+- 传统：客户端请求 -> 服务端返回 jsp,php,asp 页面
+- CSR：客户端请求 -> 服务端返回 html 模板，加载 js，js 请求数据渲染 dom
+- SSR：客户端请求 -> 服务端返回 html 页面，不依赖 js
 
-express express-http-proxy axios
+2. 更好的 SEO
 
-devDependencies
+## 目录
 
-babel 三件套：
+- `public`: 静态资源文件夹，其中存放的文件作为静态资源直接获取
+- `src`
+  - `assets`: 资源文件夹，一般存放图片
+  - `client`: 客户端入口文件及其它客户端代码
+  - `components`: 公用组件，一般存放公共组件
+  - `pages`: 路由组件，一个目录代表一个页面
+  - `server`: 服务端入口文件及其它服务端代码
+  - `store`: redux 数据治理
+  - `utils`: 工具函数
+  - `APP.js`: 布局组件
+  - `global.less`: 全局样式
+  - `routes.js`: 路由表，所有页面的路由文件由此统一管理
+- `.babelrc`: `babel`配置文件，一般不需要编辑
+- `document.ejs`: html 模板文件
+- `webpack.base.conf.js`: `webpack` 基础配置文件
+- `webpack.client.conf.js`: `webpack` 客户端打包配置文件
+- `webpack.dev.conf.js`: `webpack` 本地开发环境配置文件
+- `webpack.server.conf.js`: `webpack` 服务端打包配置文件
 
-@babel/core @babel/preset-env @babel/preset-react
+## pm2 启动项目
 
-webpack 全家桶：
+> pm2 start build/server.js --name ssr
 
-webpack webpack-cli webpack-dev-server webpack-merge webpack-node-externals webpack-dev-middleware webpack-hot-middleware
+## mock 数据接口
 
-babel-loader less less-loader css-loader style-loader file-loader isomorphic-style-loader
+1. home 列表
 
-mock 数据接口：
+> https://api.apiopen.top/getJoke?page=1&count=2&type=video
 
-<!-- https://api.apiopen.top/api.html#cd202f2d79344e2a8a88b1a5efd6f91a -->
+2. 新闻列表
 
-<!-- home 接口 -->
+> https://api.apiopen.top/getWangYiNews
 
-https://api.apiopen.top/getJoke?page=1&count=2&type=video
+3. detail 详情
 
-<!-- news 接口 -->
+> https://api.apiopen.top/getSingleJoke?sid=28654780
 
-https://api.apiopen.top/getWangYiNews
+## SSR 改造
 
-<!-- detail 接口 -->
+1. 样式处理
 
-https://api.apiopen.top/getSingleJoke?sid=28654780
+- Q1：不开启 js，样式无效
+- Q2：页面闪烁
 
-注水：把服务端渲染的数据放到 window.content
-脱水：客户端渲染的时候把数据拿出来直接使用
+2. 数据处理
 
-1. 事件的添加
+- Q1：服务端怎么知道它要获取数据
+- Q2：客户端和服务端数据怎么同步
+- Q3：注水和脱水的流程
 
-服务端使用 react-dom/server 的 renderToString 方法的时候，只能够处理 HTML，而不能处理事件，服务端没有客户端的 click，mouseout 等事件，
-所以需要把事件注册到 DOM 上
+3. 优化
 
-同构：同构渲染简单来说就是一份代码，服务端先通过服务端渲染，生成 html 以及初始化数据，客户端拿到代码和初始化数据后，通过对 html 的 dom 进行 patch 和事件绑定对 dom 进行客户端激活
+- Q1：4xx 5xx 返回正确的状态码
+- Q2：重定向处理
+- Q3：客户端渲染补偿和性能优化
+- Q4：SEO
+- Q5：其它
+  - 缓存策略
+  - 降级渲染：监控`cpu`、内存占用过多，就切换`spa`
 
-直接这样使用，我们就可以在页面上看到对应的 css 样式
+[参考](https://ssr.vuejs.org/zh/guide/data.html#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%95%B0%E6%8D%AE%E9%A2%84%E5%8F%96-server-data-fetching)
 
-- 但是这样有两个问题
-  - 第一个问题是，浏览器必须要开启 js，如果不开启 js，那么样式是不生效的
-  - 第二个问题是，当我们的页面刷新频率过快，并且不使用缓存，那么页面有非常明显的抖动
+## SSR 缺点
 
-store 为什么要分两种：
-store 的创建分为两种，一种是客户端，另外一种是服务端，而且每一个端的 store 都要分开，作为一个方法调用，这样做的目的是客户端的话，每一个用户都有一个客户端，使用的是自己的 store 里的数据，但是服务端不一样，无论有多少个客户端，服务端只有一个，所以，为了避免每个用户的 store 数据混乱，所以我们把服务端的 store 作为一个方法调用，这样，每个用户调用服务端 store 的时候，就有一个自己的方法，调用的是自己的数据，这样，数据就不会混乱
+1. 开发复杂度高
 
-
-  // a. 服务端怎么知道它要获取数据
-  // b. 客户端怎么告诉服务端它需要数据
-
-  // 普通 csr 在 componentDidMount 生命周期函数进行异步数据的获取
-
-  //   当浏览器发送请求时，服务器接受到请求，这时候服务器和客户端的 store 都是空的，紧接着客户端执行 componentDidMount 生命周期中的函数，获取到数据并渲染到页面，然而服务器端始终不会执行 componentDidMount，因此不会拿到数据，这也导致服务器端的 store 始终是空的。换而言之，关于异步数据的操作始终只是客户端渲染。
-  //   让服务端获得数据的操作执行一遍，以达到真正的服务端渲染的效果
-
+2. 服务器性能开销大

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getDetailData } from "@/store/detail/createActions";
 import styles from "./index.less";
 
-const Detail = (props) => {
+const DetailRaw = (props) => {
   const {
     propGetDetailData,
     detail: { detailData },
@@ -12,7 +12,11 @@ const Detail = (props) => {
   } = props;
 
   useEffect(() => {
-    propGetDetailData(params.id);
+    if (!Object.keys(detailData).length) {
+      propGetDetailData(params.id);
+    } else {
+      propGetDetailData(params.id);
+    }
   }, []);
 
   return <main className={styles.detail}>{detailData.text}</main>;
@@ -26,7 +30,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
+const Detail = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WithStyle(Detail, styles));
+)(WithStyle(DetailRaw, styles));
+
+Detail.getInitState = ({ store, req }) =>
+  store.dispatch(getDetailData(req.params.id));
+
+export default Detail;

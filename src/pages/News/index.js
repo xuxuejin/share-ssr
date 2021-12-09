@@ -11,7 +11,7 @@ const NewsRaw = (props) => {
   } = props;
 
   useEffect(() => {
-    // 
+    //
     propGetNewsData();
   }, []);
 
@@ -44,6 +44,6 @@ const News = connect(
   mapDispatchToProps
 )(WithStyle(NewsRaw, styles));
 
-News.getInitialState = store => store.dispatch(getNewsData());
+News.getInitState = ({ store }) => store.dispatch(getNewsData());
 
-export default News
+export default News;

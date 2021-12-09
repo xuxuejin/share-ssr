@@ -21,6 +21,7 @@ module.exports = merge(baseConfig, {
           {
             loader: "css-loader",
             options: {
+              // 天坑
               esModule: false,
               modules: {
                 localIdentName: "[name]-[local]-[hash:base64:5]",

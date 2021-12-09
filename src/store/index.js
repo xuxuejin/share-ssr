@@ -4,7 +4,7 @@ import reducers from "./resucers";
 import clientAxios from "@/client/request";
 import serverAxios from "@/server/request";
 
-export const getServerStore = (req) => {
+export const getServerStore = () => {
   return createStore(
     reducers,
     applyMiddleware(thunk.withExtraArgument(serverAxios))

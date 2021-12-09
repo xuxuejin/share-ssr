@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Detail from "./pages/Detail";
 import News from "./pages/News";
 import NotFound from "./pages/NotFound";
-import { getHomeData } from "@/api";
 
 export default [
   {
@@ -14,22 +13,18 @@ export default [
         exact: true,
         path: "/",
         component: Home,
-        loadData: getHomeData,
+        // 路由挂载的方法获取不到
+        loadData: Home.getInitialState,
       },
       {
         path: "/detail/:id",
         component: Detail,
-        loadData: () => {
-          console.log("获取详情数据");
-        },
+        loadData: Detail.getInitialState,
       },
       {
         path: "/news",
         component: News,
         loadData: News.getInitialState,
-        loadData: () => {
-          console.log("获取新闻数据");
-        },
       },
       {
         path: "*",

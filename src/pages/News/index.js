@@ -4,13 +4,14 @@ import { connect } from "react-redux";
 import { getNewsData } from "@/store/news/createActions";
 import styles from "./index.less";
 
-const News = (props) => {
+const NewsRaw = (props) => {
   const {
     propGetNewsData,
     news: { newsData },
   } = props;
 
   useEffect(() => {
+    // 
     propGetNewsData();
   }, []);
 
@@ -38,7 +39,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
+const News = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WithStyle(News, styles));
+)(WithStyle(NewsRaw, styles));
+
+News.getInitialState = store => store.dispatch(getNewsData());
+
+export default News

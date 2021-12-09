@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import WithStyle from "@/components/WithStyle";
 import { connect } from "react-redux";
+import {Helmet} from 'react-helmet';
 import { getHomeData } from "@/store/home/createActions";
 import styles from "./index.less";
 import banner from "@/assets/bg.png";
 
-const Home = (props) => {
+const HomeRaw = (props) => {
   let [page, setPage] = useState(1);
   const [count] = useState(5);
   const {
@@ -33,12 +34,16 @@ const Home = (props) => {
   };
 
   return (
-    <main>
+    <>
+      <Helmet>
+        <title>homes标题</title>
+      </Helmet>
       <div className={styles.banner}>
         <img src={banner} />
       </div>
       <div className={styles.btnWrap}>
         <button onClick={prev}>上一页</button>
+        <span> 第{page}页 </span>
         <button onClick={next}>下一页</button>
       </div>
       <ul className={styles.listWrap}>
@@ -60,7 +65,7 @@ const Home = (props) => {
             </li>
           ))}
       </ul>
-    </main>
+    </>
   );
 };
 
@@ -72,7 +77,14 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(
+const Home = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WithStyle(Home, styles));
+)(WithStyle(HomeRaw, styles));
+
+// 解决获取不到路由挂载方法
+Home.getInitialState = (store) => {
+  return store.dispatch(getHomeData({page:1, count: 5}));
+};
+
+export default Home

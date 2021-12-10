@@ -8,17 +8,18 @@ const OPENAPI = "https://api.apiopen.top";
 // 静态资源ok
 app.use(express.static("public"));
 
-// 接口正确
-// app.get("/api/getSchoolList", (req, res) => {
-//   let schoolList = [
-//     { id: 1, name: "大学1" },
-//     { id: 2, name: "大学2" },
-//     { id: 3, name: "大学3" },
-//   ];
-//   return res.json({ schoolList });
-// });
+// node 中间层处理数据
+app.use("/api/getAsyncData", (req, res) => {
+  let AsyncDataList = [
+    { id: 1, name: "data1" },
+    { id: 2, name: "data2" },
+    { id: 3, name: "data3" },
+  ];
+  
+  return res.send({"code":200,"message":"成功!","result":AsyncDataList});
+});
 
-// 请求第三发接口
+// 请求第三方接口
 app.use("/openapi", (req, res, next) => {
   axios
     .get(`${OPENAPI}${req.url}`)

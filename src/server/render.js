@@ -17,11 +17,18 @@ export default (req, res) => {
   const matchedRoutes = matchRoutes(routes, req.path);
 
   const store = getServerStore(req);
+  
   // 服务端获取数据的核心
   matchedRoutes.forEach((item) => {
     const loadData = item.route.loadData;
     if (loadData) {
-      promises.push(loadData({ store, req }));
+      const result = loadData({ store, req });
+
+      if(Array.isArray(result)) {
+        result.forEach((item) => promises.push(item))
+      } else {
+        promises.push(loadData({ store, req }))
+      }
     }
   });
 

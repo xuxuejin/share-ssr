@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "nick <2207952662@qq.com> (http://github.com/saynoon)",
+  "author": "Shawn <2207952662@qq.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.24.0",

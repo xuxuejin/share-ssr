@@ -9,17 +9,20 @@ import banner from "@/assets/bg.png";
 
 const HomeRaw = (props) => {
   let [page, setPage] = useState(1);
-  const [count] = useState(5);
+  const [count] = useState(3);
   const {
     propGetHomeData,
-    home: { homeData },
+    staticContext,
+    home: { homeData, localData },
   } = props;
 
   useEffect(() => {
-    propGetHomeData({
-      page,
-      count,
-    });
+    if (!staticContext) {
+      propGetHomeData({
+        page,
+        count,
+      });
+    }
   }, [page]);
 
   const prev = () => {
@@ -37,6 +40,8 @@ const HomeRaw = (props) => {
     <>
       <Helmet>
         <title>homes标题</title>
+        <meta name="keywords" content="home关键词1，home关键词2" />
+        <meta name="decsription" content="home描述" />
       </Helmet>
       <div className={styles.banner}>
         <img src={banner} />
@@ -75,6 +80,9 @@ const mapDispatchToProps = (dispatch) => ({
   propGetHomeData({ page, count }) {
     dispatch(getHomeData({ page, count }));
   },
+  // propGetAsyncData() {
+  //   dispatch(getAsyncData());
+  // },
 });
 
 const Home = connect(
@@ -83,9 +91,8 @@ const Home = connect(
 )(WithStyle(HomeRaw, styles));
 
 // 解决获取不到路由挂载方法
-Home.getInitState = ({ store }) => (
-  [store.dispatch(getHomeData({ page: 1, count: 5 })), 
-    store.dispatch(getAsyncData())]
-)
+Home.getInitState = ({ store }) => [
+  store.dispatch(getHomeData({ page: 1, count: 3 })),
+];
 
 export default Home;

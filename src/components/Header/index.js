@@ -6,7 +6,9 @@ import styles from "./index.less";
 const Header = () => {
   return (
     <div className={styles.header}>
-      <h1 />
+      <h1>
+        <Link to="/" />
+      </h1>
       <div>
         <Link to="/">home</Link>
         <Link to="/news">news</Link>

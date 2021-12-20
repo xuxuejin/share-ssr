@@ -9,6 +9,8 @@
 # production
 /dist
 /dist.zip
+/build
+/public
 
 config/manifest.json
 

@@ -18,17 +18,14 @@ export const getHomeData = ({ page = 1, count = 5 }) => {
 
 export const getAsyncData = () => {
   return (dispatch, getState, axiosInstance) => {
-    // return axiosInstance
-    //   .get(`/api/getAsyncData`)
-    //   .then((res) => {
-    //     console.log(res)
-    //     // if (res.status === 200) {
-    //     //   const resData = res.data.result;
-    //     //   dispatch({
-    //     //     type: Types.GET_HOME_DATA,
-    //     //     payload: resData,
-    //     //   });
-    //     // }
-    //   });
+    return axiosInstance.get(`/api/getAsyncData`).then((res) => {
+      if (res.status === 200) {
+        const resData = res.data.result;
+        dispatch({
+          type: Types.GET_LOCAL_DATA,
+          payload: resData,
+        });
+      }
+    });
   };
 };

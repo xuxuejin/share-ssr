@@ -36,12 +36,12 @@ app.use(morgan('combined', { stream }));
 // node 中间层处理数据
 app.use("/api/getAsyncData", (req, res) => {
   let AsyncDataList = [
-    { id: 1, name: "data1" },
-    { id: 2, name: "data2" },
-    { id: 3, name: "data3" },
+    { id: 1, data: "express-data-1" },
+    { id: 2, data: "express-data-2" },
+    { id: 3, data: "express-data-3" },
   ];
-  
-  return res.send({"code":200,"message":"成功!","result":AsyncDataList});
+
+  return res.send({ code: 200, message: "成功!", result: AsyncDataList });
 });
 
 // 请求第三方接口

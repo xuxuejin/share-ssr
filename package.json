@@ -28,7 +28,8 @@
     "react-router-dom": "5.2.0",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
-    "rotating-file-stream": "^3.0.2"
+    "rotating-file-stream": "^3.0.2",
+    "swiper": "^7.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
